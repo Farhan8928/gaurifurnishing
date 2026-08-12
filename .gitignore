@@ -1,0 +1,9 @@
+node_modules
+dist
+.DS_Store
+*.local
+.vercel
+.env
+.env.*
+scripts/.prerendered-root.html
+client-images

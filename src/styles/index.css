@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Reserved for the sticky mobile CTA bar, so the last section is never
+       hidden behind it. Set to 0 above the mobile breakpoint in CtaBars. */
+    --cta-bar-height: 4.5rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Anchor targets must clear the fixed nav, or clicking "FAQ" lands with the
+       heading tucked under the header. */
+    scroll-padding-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-linen text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-teal text-linen;
+  }
+
+  /* Visible focus for keyboard users on every interactive element. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-teal ring-offset-2 ring-offset-linen;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  /* Section eyebrow — small caps label above every section heading. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-teal;
+  }
+
+  .h-section {
+    @apply font-display text-3xl font-semibold leading-[1.12] tracking-tight text-ink sm:text-4xl lg:text-[2.75rem];
+  }
+
+  .prose-body {
+    @apply text-[1.0625rem] leading-relaxed text-ink-soft;
+  }
+
+  /* ── Buttons ──────────────────────────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold
+           transition duration-200 ease-out active:translate-y-px;
+  }
+
+  .btn-primary {
+    @apply btn bg-teal text-linen shadow-soft hover:bg-teal-deep hover:shadow-lift;
+  }
+
+  .btn-whatsapp {
+    @apply btn bg-whatsapp text-white shadow-soft hover:brightness-95 hover:shadow-lift;
+  }
+
+  .btn-ghost {
+    @apply btn border border-ink/15 bg-linen/60 text-ink backdrop-blur hover:border-ink/35 hover:bg-linen;
+  }
+
+  /* ── Cards ────────────────────────────────────────────────────────────── */
+  .card {
+    @apply rounded-2xl border border-ink/10 bg-linen shadow-frame transition duration-300;
+  }
+
+  .card-hover {
+    @apply card hover:-translate-y-1 hover:border-ink/20 hover:shadow-lift;
+  }
+
+  /* Thin rule used to separate sections without a hard border. */
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-ink/15 to-transparent;
+  }
+}
+
+@layer utilities {
+  /* Hides scrollbars on the horizontal category filter without disabling scroll. */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}

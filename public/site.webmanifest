@@ -1,0 +1,22 @@
+{
+  "name": "Gouri Mattresses & Furnishing",
+  "short_name": "Gouri Furnishing",
+  "description": "Made-to-measure curtains, blinds, sofa cum beds, mattresses and upholstered headboards in Thane. Free home measurement.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#faf6ef",
+  "theme_color": "#0f5f5c",
+  "lang": "en-IN",
+  "categories": ["shopping", "business", "lifestyle"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    {
+      "src": "/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
