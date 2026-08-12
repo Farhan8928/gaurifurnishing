@@ -20,6 +20,7 @@ import { SERVICES, AREAS } from '../src/data/services.js'
 import { FAQS } from '../src/data/faqs.js'
 import { GALLERY } from '../src/data/gallery.gen.js'
 import { CONTACT, SITE_URL } from '../src/data/site.js'
+import { BRAND, THEME_COLOR } from '../src/data/brand.js'
 
 const esc = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -126,7 +127,7 @@ const SHARED_HEAD = (title, description, canonical, keywords) => `
     <meta name="geo.placename" content="Thane West, Maharashtra" />
     <meta name="geo.position" content="${CONTACT.geo.lat};${CONTACT.geo.lng}" />
     <meta name="ICBM" content="${CONTACT.geo.lat}, ${CONTACT.geo.lng}" />
-    <meta name="theme-color" content="#faf6ef" />
+    <meta name="theme-color" content="${THEME_COLOR}" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Gouri Mattresses &amp; Furnishing" />
     <meta property="og:locale" content="en_IN" />
@@ -140,71 +141,87 @@ const SHARED_HEAD = (title, description, canonical, keywords) => `
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />`
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />`
 
 /**
  * Self-contained CSS. These pages deliberately do not load the app bundle:
  * they are leaf pages a searcher lands on, and inline CSS with no JavaScript
  * means they render essentially instantly on a phone on mobile data.
+ *
+ * Colours come from src/data/brand.js and the rules follow DESIGN.md, because
+ * these 114 pages are 98% of the site. When the design was reworked from teal
+ * to the signboard's navy and red, only the React homepage changed and this
+ * stylesheet was missed — so almost every page a searcher could actually land
+ * on still served the abandoned palette and the old fonts. scripts/brand-audit.mjs
+ * now checks a sample of the generated pages for exactly that.
  */
 const PAGE_CSS = `
     <style>
       *,*::before,*::after{box-sizing:border-box}
-      body{margin:0;background:#faf6ef;color:#1c1917;font-family:Inter,system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
-      a{color:#0f5f5c}
-      .wrap{max-width:64rem;margin:0 auto;padding:0 1.25rem}
-      header.bar{position:sticky;top:0;z-index:20;background:rgba(250,246,239,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(28,25,23,.1)}
+      body{margin:0;background:${BRAND.paper};color:${BRAND.navy};font-family:Newsreader,Georgia,serif;font-size:1.0625rem;line-height:1.65;-webkit-font-smoothing:antialiased;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E")}
+      a{color:${BRAND.navy}}
+      .wrap{max-width:66rem;margin:0 auto;padding:0 1.25rem}
+      header.bar{position:sticky;top:0;z-index:20;background:${BRAND.paper};border-bottom:2px solid rgba(32,40,110,.15)}
       header.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:4.25rem}
-      .brand{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:1.2rem;text-decoration:none;color:#1c1917}
-      .brand span{display:block;font-family:Inter,sans-serif;font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#0f5f5c}
-      .btn{display:inline-flex;align-items:center;gap:.5rem;border-radius:999px;padding:.8rem 1.4rem;font-size:.875rem;font-weight:600;text-decoration:none;white-space:nowrap}
-      .btn-teal{background:#0f5f5c;color:#faf6ef}
-      .btn-wa{background:#1fb658;color:#fff}
-      .btn-ghost{border:1px solid rgba(28,25,23,.18);color:#1c1917}
-      nav.crumbs{font-size:.8rem;color:#7a7269;padding:1.5rem 0 0}
-      nav.crumbs a{color:#7a7269}
-      h1{font-family:Fraunces,Georgia,serif;font-size:clamp(2rem,5.5vw,3.1rem);line-height:1.1;letter-spacing:-.02em;margin:1rem 0 0;text-wrap:balance}
-      h2{font-family:Fraunces,Georgia,serif;font-size:clamp(1.4rem,3.4vw,2rem);line-height:1.2;margin:3rem 0 .75rem;text-wrap:balance}
-      h3{font-family:Fraunces,Georgia,serif;font-size:1.1rem;margin:0 0 .35rem}
-      p{color:#4a443d;text-wrap:pretty}
-      .lede{font-size:1.1rem;margin-top:1.25rem}
-      .cta-row{display:flex;flex-wrap:wrap;gap:.75rem;margin:2rem 0}
-      ul.ticks{list-style:none;padding:0;margin:1.5rem 0;display:grid;gap:.6rem}
-      ul.ticks li{padding-left:1.7rem;position:relative;color:#4a443d}
-      ul.ticks li::before{content:"";position:absolute;left:0;top:.62em;width:.55rem;height:.55rem;border-radius:999px;background:#0f5f5c}
-      .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(min(100%,15rem),1fr));margin:1.75rem 0}
-      .grid img{width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;border-radius:.75rem;border:1px solid rgba(28,25,23,.1);display:block}
-      .band{background:#0f5f5c;color:#faf6ef;padding:3rem 0;margin:4rem 0 0}
-      .band h2{margin-top:0;color:#faf6ef}
-      .band p{color:rgba(250,246,239,.75)}
-      .card{border:1px solid rgba(28,25,23,.1);border-radius:1rem;padding:1.5rem;background:#faf6ef}
-      details{border-top:1px solid rgba(28,25,23,.1);padding:1.1rem 0}
-      details summary{cursor:pointer;font-family:Fraunces,Georgia,serif;font-weight:600;font-size:1.03rem;list-style:none}
+      .brand{display:flex;align-items:baseline;gap:.5rem;text-decoration:none}
+      .brand b{font-family:Archivo,Arial,sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-.03em;color:${BRAND.navy}}
+      .brand span{font-family:Archivo,Arial,sans-serif;font-size:.58rem;font-weight:700;line-height:1.15;letter-spacing:.14em;text-transform:uppercase;color:${BRAND.red}}
+      .btn{display:inline-flex;align-items:center;gap:.5rem;border-radius:2px;padding:.85rem 1.4rem;font-family:Archivo,Arial,sans-serif;font-size:.875rem;font-weight:700;text-decoration:none;white-space:nowrap}
+      .btn-red{background:${BRAND.red};color:${BRAND.paper}}
+      .btn-wa{background:${BRAND.whatsapp};color:#fff}
+      .btn-ghost{border:2px solid rgba(32,40,110,.2);color:${BRAND.navy}}
+      nav.crumbs{font-size:.8rem;color:rgba(32,40,110,.55);padding:1.5rem 0 0}
+      nav.crumbs a{color:rgba(32,40,110,.55)}
+      h1,h2,h3{font-family:Archivo,Arial,sans-serif;font-weight:800;letter-spacing:-.03em}
+      h1{font-size:clamp(2rem,5.5vw,3.1rem);line-height:1.02;margin:1rem 0 0;text-wrap:balance}
+      h2{font-size:clamp(1.4rem,3.4vw,2rem);line-height:1.12;margin:3rem 0 .75rem;text-wrap:balance}
+      h2::before{content:"";display:block;width:3.5rem;height:5px;background:${BRAND.sunflower};margin-bottom:1rem}
+      h3{font-size:1.15rem;margin:0 0 .35rem}
+      p{color:rgba(32,40,110,.75);text-wrap:pretty}
+      .lede{font-size:1.19rem;margin-top:1.25rem}
+      .cta-row{display:flex;flex-wrap:wrap;gap:.65rem;margin:2rem 0}
+      ul.ticks{list-style:none;padding:0;margin:1.5rem 0;display:grid;gap:.55rem}
+      ul.ticks li{padding-left:1.5rem;position:relative;color:rgba(32,40,110,.75)}
+      ul.ticks li::before{content:"";position:absolute;left:0;top:.75em;width:.75rem;height:1px;background:${BRAND.red}}
+      ol{padding-left:1.2rem}
+      ol li{margin:.5rem 0;color:rgba(32,40,110,.75)}
+      .grid{display:grid;gap:.75rem;grid-template-columns:repeat(auto-fill,minmax(min(100%,15rem),1fr));margin:1.75rem 0}
+      .grid img{width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+      .band{background:${BRAND.navy};color:${BRAND.paper};padding:3.5rem 0;margin:4rem 0 0}
+      .band h2{margin-top:0;color:${BRAND.paper}}
+      .band p{color:rgba(245,241,230,.75)}
+      .card{border-left:5px solid ${BRAND.sunflower};padding:.25rem 0 .25rem 1.25rem}
+      details{border-top:1px solid rgba(32,40,110,.15);padding:1.1rem 0}
+      details:last-of-type{border-bottom:1px solid rgba(32,40,110,.15)}
+      details summary{cursor:pointer;font-family:Archivo,Arial,sans-serif;font-weight:700;letter-spacing:-.02em;font-size:1.05rem;list-style:none}
       details summary::-webkit-details-marker{display:none}
-      details summary::after{content:" +";color:#0f5f5c}
+      details summary::after{content:" +";color:${BRAND.red}}
       details[open] summary::after{content:" –"}
-      details p{margin:.7rem 0 0;font-size:.95rem}
-      .links{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.25rem 0 0;padding:0;list-style:none}
-      .links a{display:inline-block;border:1px solid rgba(28,25,23,.15);border-radius:999px;padding:.45rem .95rem;font-size:.82rem;text-decoration:none;color:#4a443d;background:#faf6ef}
-      footer{background:#1c1917;color:rgba(250,246,239,.7);margin-top:4rem;padding:3rem 0 6rem;font-size:.9rem}
-      footer a{color:#e0c48a}
-      .sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:.6rem;background:rgba(250,246,239,.96);border-top:1px solid rgba(28,25,23,.1)}
+      details p{margin:.7rem 0 0;font-size:.98rem}
+      .links{display:flex;flex-wrap:wrap;gap:.4rem;margin:1.25rem 0 0;padding:0;list-style:none}
+      .links a{display:inline-block;border:2px solid rgba(32,40,110,.15);border-radius:2px;padding:.4rem .9rem;font-family:Archivo,Arial,sans-serif;font-size:.78rem;font-weight:700;text-decoration:none;color:rgba(32,40,110,.7)}
+      .links a:hover{border-color:${BRAND.navy};color:${BRAND.navy}}
+      footer{background:${BRAND.navy};color:rgba(245,241,230,.7);margin-top:0;padding:3rem 0 6rem;font-size:.95rem}
+      footer a{color:${BRAND.sunflower}}
+      .sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:.6rem;background:${BRAND.paper};border-top:2px solid rgba(32,40,110,.15)}
       .sticky .btn{justify-content:center;flex:1}
       @media(min-width:768px){.sticky{display:none}footer{padding-bottom:3rem}}
     </style>`
 
+/** Matches the app's Nav lockup: navy name, red trade, exactly as the board. */
 const HEADER_HTML = `
     <header class="bar">
       <div class="wrap">
-        <a class="brand" href="/">Gouri<span>Mattresses &amp; Furnishing</span></a>
-        <a class="btn btn-teal" href="tel:+91${CONTACT.phones[0]}">Call 93265 44812</a>
+        <a class="brand" href="/"><b>GOURI</b><span>Mattresses &amp;<br />Furnishing</span></a>
+        <a class="btn btn-red" href="tel:+91${CONTACT.phones[0]}">Call 93265 44812</a>
       </div>
     </header>`
 
 const footerHtml = (relatedLinks) => `
     <footer>
       <div class="wrap">
-        <p style="font-family:Fraunces,Georgia,serif;font-size:1.25rem;color:#faf6ef;margin:0 0 .5rem">Gouri Mattresses &amp; Furnishing</p>
+        <p style="font-family:Archivo,Arial,sans-serif;font-weight:800;letter-spacing:-.03em;font-size:1.4rem;color:${BRAND.paper};margin:0 0 .5rem">GOURI <span style="color:${BRAND.sunflower}">Mattresses &amp; Furnishing</span></p>
         <p style="margin:0 0 1.25rem">
           ${esc(CONTACT.address)}<br />
           Open 7 days, 10:00 am – 9:00 pm · Ask for ${esc(CONTACT.proprietor)}<br />
@@ -218,7 +235,7 @@ const footerHtml = (relatedLinks) => `
       </div>
     </footer>
     <div class="sticky">
-      <a class="btn btn-teal" href="tel:+91${CONTACT.phones[0]}">Call now</a>
+      <a class="btn btn-red" href="tel:+91${CONTACT.phones[0]}">Call now</a>
       <a class="btn btn-wa" href="https://wa.me/${CONTACT.whatsapp}">WhatsApp</a>
     </div>`
 
@@ -362,7 +379,7 @@ function renderPage(service, area, index) {
     .join('')
 
   const relatedLinks = `
-        <p style="font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#e0c48a;margin:0 0 .6rem">More from us</p>
+        <p style="font-family:Archivo,Arial,sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:${BRAND.sunflower};margin:0 0 .6rem">More from us</p>
         <ul class="links">
           <li><a href="/">Home</a></li>
           ${SERVICES.map((s) => `<li><a href="/${s.slug}-thane/">${esc(s.short)} in Thane</a></li>`).join('')}
@@ -392,7 +409,7 @@ function renderPage(service, area, index) {
       <p>${esc(note)}</p>
 
       <div class="cta-row">
-        <a class="btn btn-teal" href="tel:+91${CONTACT.phones[0]}">Call +91 93265 44812</a>
+        <a class="btn btn-red" href="tel:+91${CONTACT.phones[0]}">Call +91 93265 44812</a>
         <a class="btn btn-wa" href="https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(
           `Hi Gouri Furnishing, I would like a free measurement for ${service.short.toLowerCase()} in ${areaLabel}.`,
         )}">Free measurement on WhatsApp</a>
@@ -444,7 +461,7 @@ function renderPage(service, area, index) {
         <h2>Free measurement in ${esc(areaLabel)}</h2>
         <p>Tell us the room. We will bring the fabric to it — and quote before we start.</p>
         <div class="cta-row" style="margin-bottom:0">
-          <a class="btn" style="background:#faf6ef;color:#1c1917" href="tel:+91${CONTACT.phones[0]}">Call +91 93265 44812</a>
+          <a class="btn" style="background:${BRAND.paper};color:${BRAND.navy}" href="tel:+91${CONTACT.phones[0]}">Call +91 93265 44812</a>
           <a class="btn btn-wa" href="https://wa.me/${CONTACT.whatsapp}">WhatsApp us</a>
         </div>
       </div>

@@ -16,7 +16,7 @@
  *
  * Runs as part of `npm run build`.
  */
-import { readFile, stat } from 'node:fs/promises'
+import { readdir, readFile, stat } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { BRAND, THEME_COLOR, BACKGROUND_COLOR } from '../src/data/brand.js'
@@ -85,6 +85,42 @@ async function main() {
   for (const hex of notFound.match(/#[0-9a-fA-F]{3,8}\b/g) ?? []) {
     if (!palette.has(hex.toLowerCase()) && !ALLOWED_EXTRA.has(hex.toLowerCase()))
       errors.push(`404.html uses ${hex}, which is not in the brand palette`)
+  }
+
+  // ── The 114 generated landing pages ───────────────────────────────────
+  // These carry their own inline stylesheet from scripts/seo-pages.mjs, quite
+  // separate from the app's Tailwind build — and they are 98% of the site's
+  // pages. When the design moved to navy and red, only the React homepage
+  // changed; every page a searcher could actually land on kept serving the old
+  // teal palette and the old fonts, and nothing noticed. Hence this check.
+  const dirs = (await readdir(DIST, { withFileTypes: true }))
+    .filter((e) => e.isDirectory() && e.name !== 'assets' && e.name !== 'images')
+    .map((e) => e.name)
+
+  // Every page, not a sample. Sampling three of them was the first instinct —
+  // they all come from one template, so drift "must" hit all of them equally.
+  // But the negative test proved it hollow: tampering with a page outside the
+  // sample passed clean. Reading 114 small HTML files costs milliseconds, and a
+  // check that can miss is worse than no check, because it is believed.
+  for (const dir of dirs) {
+    const html = await readFile(join(DIST, dir, 'index.html'), 'utf8').catch(() => '')
+    if (!html) continue
+
+    for (const hex of html.match(/#[0-9a-fA-F]{3,8}\b/g) ?? []) {
+      if (!palette.has(hex.toLowerCase()) && !ALLOWED_EXTRA.has(hex.toLowerCase()))
+        errors.push(`/${dir}/ uses ${hex}, which is not in the brand palette`)
+    }
+
+    // The fonts must match the app's, or the landing pages read as a different
+    // website to anyone who clicks through from one to the other.
+    for (const stale of ['Fraunces', 'Inter:wght', 'font-family:Inter']) {
+      if (html.includes(stale))
+        errors.push(`/${dir}/ still references the old font "${stale}"`)
+    }
+    for (const expected of ['Archivo', 'Newsreader']) {
+      if (!html.includes(expected))
+        errors.push(`/${dir}/ does not load the ${expected} typeface`)
+    }
   }
 
   if (errors.length) {
