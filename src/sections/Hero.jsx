@@ -1,72 +1,78 @@
-import { Phone, MessageCircle, Check, MapPin } from 'lucide-react'
+import { Phone, MessageCircle } from 'lucide-react'
 import Photo from '../components/Photo.jsx'
 import { CONTACT, HERO_POINTS, RATING, waLink, WA_DEFAULT } from '../data/site.js'
 
 /**
  * Above the fold.
  *
- * The layout is driven by one hard constraint: on a phone, the photograph has
- * to be in the first screen. The original version put a headline, a six-line
- * paragraph and four bullet points first, which pushed the photo to 999px on a
- * 390×844 screen — completely invisible, so the opening impression of a
- * furnishing business was a wall of text. For a trade sold entirely on how the
- * work looks, that is backwards, and the client rightly rejected it.
+ * Two constraints shaped this, both learned the hard way.
  *
- * So the DOM order is: what this is (eyebrow + headline) → what it looks like
- * (photograph) → why (copy) → how to act (buttons). That order reads correctly
- * on a phone top-to-bottom, and the grid placement classes rearrange it into
- * the two-column split at `lg`, where the photo sits beside the copy instead of
- * between its parts. One `<img>` serves both — no duplicate markup, no second
- * download, no competing `<h1>`.
+ * One: on a phone the photograph has to be in the first screen. An earlier
+ * version led with a headline, a six-line paragraph and four bullets, which put
+ * the photo at 999px on a 390×844 screen — invisible. For a trade sold entirely
+ * on how the work looks, the opening impression cannot be a wall of text. So the
+ * DOM order is: what this is → what it looks like → why → how to act, and the
+ * grid placement classes rearrange it into a two-column split at `lg`. One
+ * `<img>` serves both: no duplicate markup, no second download, no rival `<h1>`.
  *
- * The photo is deliberately reflowed above the text on mobile rather than used
- * as a full-bleed background with text over it: these are bright, pale interior
- * photographs, and white type over pale curtains needs a scrim heavy enough to
- * ruin the very thing it is showing.
+ * Two: no blurred colour orb behind the copy, no all-caps badge above the
+ * headline, no pill buttons. Those are the three loudest tells of a generated
+ * page and this section had all of them. See DESIGN.md.
  */
 export default function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden pt-[4.5rem]">
-      {/* Soft wash behind the copy so the linen page does not read flat. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-32 -top-40 h-[34rem] w-[34rem] rounded-full bg-teal-wash blur-3xl"
-      />
-
-      <div className="container-page relative grid items-center gap-y-6 pb-10 pt-6 short:pt-4 lg:grid-cols-[1.05fr_1fr] lg:gap-x-16 lg:gap-y-0 lg:py-16 short:lg:py-9">
+    <section id="top" className="relative pt-[4.5rem]">
+      <div className="container-page grid items-center gap-y-7 pb-12 pt-7 short:pt-5 lg:grid-cols-[1.08fr_1fr] lg:gap-x-14 lg:gap-y-0 lg:py-16 short:lg:py-10">
         {/* ── 1. What this is ─────────────────────────────────────────── */}
         <div className="lg:col-start-1 lg:row-start-1">
-          <p className="eyebrow">
-            <MapPin size={13} aria-hidden="true" />
+          <p className="mb-4 flex items-center gap-3 font-display text-xs font-bold uppercase tracking-[0.16em] text-red">
+            <span aria-hidden="true" className="h-[3px] w-8 bg-red" />
             Vartak Nagar, Thane (W)
           </p>
 
-          <h1 className="mt-3 font-display text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-balance sm:text-5xl lg:mt-5 lg:text-[3.4rem] short:lg:text-[2.5rem] xl:text-[3.9rem] short:xl:text-[2.7rem]">
-            Curtains, sofas and blinds
-            <span className="block text-teal">made for your room.</span>
+          {/* Archivo at 800 is a wide, heavy face — it eats horizontal space
+              far faster than the previous serif did, so the `short:` steps here
+              are much more aggressive than they look. Sized so the headline
+              lands in three lines inside the left column at every breakpoint. */}
+          <h1 className="text-[2.3rem] leading-[0.98] text-balance sm:text-[2.9rem] lg:text-[3rem] short:lg:text-[2.2rem] xl:text-[3.6rem] short:xl:text-[2.5rem]">
+            Curtains, sofas
+            <br />
+            and blinds{' '}
+            <span className="relative whitespace-nowrap text-red">
+              made
+              {/* The signboard's yellow rule, used as an underline. */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 -bottom-1 h-[6px] bg-sunflower lg:-bottom-2 lg:h-[9px]"
+              />
+            </span>{' '}
+            for your room.
           </h1>
         </div>
 
         {/* ── 2. What it looks like ───────────────────────────────────── */}
-        {/* Full-bleed on phones via negative margins; a rounded card at lg. */}
+        {/* Full-bleed on phones via negative margins; square on the page at lg. */}
         <div className="relative -mx-5 sm:-mx-8 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0">
-          <div className="overflow-hidden lg:rounded-[1.75rem] lg:border lg:border-ink/10 lg:shadow-lift">
-            <Photo
-              name="curtains-peach-sheer-layered-living-room-thane"
-              priority
-              sizes="(max-width: 1024px) 100vw, 46vw"
-              className="h-[40vh] max-h-[22rem] min-h-[14rem] w-full object-cover lg:aspect-[4/3] lg:h-auto lg:max-h-none"
-            />
-          </div>
+          <Photo
+            name="curtains-peach-sheer-layered-living-room-thane"
+            priority
+            sizes="(max-width: 1024px) 100vw, 46vw"
+            /* The portrait crop is the nicer composition, but at lg the photo
+               is the tallest thing in the row and `items-center` lets it drive
+               the row height — a 4:5 crop in a 512px column is 640px tall, which
+               on a 625px-high laptop pushed the buttons off screen on its own.
+               Short viewports get a landscape crop instead. */
+            className="h-[40vh] max-h-[22rem] min-h-[14rem] w-full object-cover lg:aspect-[4/5] lg:h-auto lg:max-h-none short:lg:aspect-[4/3]"
+          />
 
-          {/* Proof the shop is real, sitting on the photograph. */}
-          <figure className="absolute bottom-3 left-3 w-32 overflow-hidden rounded-xl border-2 border-linen shadow-lift sm:w-40 lg:-bottom-8 lg:-left-10 lg:w-52 lg:border-4">
+          {/* Proof the shop is real, sitting flat on the photograph. */}
+          <figure className="absolute bottom-0 left-0 w-32 sm:w-40 lg:-left-8 lg:bottom-8 lg:w-48">
             <Photo
               name="gouri-mattresses-furnishing-shop-vartak-nagar-thane"
-              sizes="(max-width: 640px) 33vw, 13rem"
+              sizes="(max-width: 640px) 33vw, 12rem"
               className="aspect-[4/3] w-full object-cover"
             />
-            <figcaption className="bg-ink px-2 py-1.5 text-[0.55rem] font-medium uppercase tracking-wider text-linen/70 sm:text-[0.65rem] lg:px-3 lg:py-2">
+            <figcaption className="bg-navy px-2 py-1.5 font-display text-[0.55rem] font-bold uppercase tracking-[0.12em] text-paper/70 sm:text-[0.6rem] lg:px-3 lg:py-2">
               Our shop
               <span className="hidden sm:inline"> · Pokhran Rd 1</span>
             </figcaption>
@@ -75,29 +81,22 @@ export default function Hero() {
 
         {/* ── 3. Why, and 4. how to act ───────────────────────────────── */}
         {/* flex only at lg, because that is the sole reason it exists: the
-            `order` utilities below need a flex parent to have any effect, and
-            on mobile the plain DOM order is already the order we want. */}
+            `order` utilities below need a flex parent, and on mobile the plain
+            DOM order is already the order we want. */}
         <div className="lg:col-start-1 lg:row-start-2 lg:flex lg:flex-col">
-          <p className="max-w-xl text-[1.0625rem] leading-relaxed text-ink-soft text-pretty lg:mt-6 lg:text-lg short:lg:mt-4 short:lg:text-base">
+          <p className="max-w-[34rem] text-lg leading-relaxed text-navy/75 text-pretty lg:mt-7 short:lg:mt-4 short:lg:text-base">
             Measured at your home, made in our own workshop on Pokhran Road, and
             fitted by us. Old sofas repaired and re-covered too.
           </p>
 
-          {/* Buttons come before the detail list on phones — a visitor who is
-              already convinced should not have to scroll past four bullets to
-              find the phone number. At lg the list reads first, as usual. */}
-          {/* Side by side rather than stacked on phones: stacking cost 58px of
-              vertical space and pushed the second button underneath the fixed
-              bottom bar, where it was invisible. The WhatsApp label shortens on
-              small screens so both still fit on one row. */}
           {/* id is load-bearing: CtaBars watches this row and only slides the
               sticky bottom bar up once these buttons are off screen. */}
           <div
             id="hero-cta"
-            className="mt-5 flex flex-wrap gap-2.5 lg:order-2 lg:mt-8 short:lg:mt-6"
+            className="mt-6 flex flex-wrap gap-2.5 lg:order-2 lg:mt-8 short:lg:mt-6"
           >
-            <a href={`tel:+91${CONTACT.phones[0]}`} className="btn-primary !px-5 sm:!px-6">
-              <Phone size={17} aria-hidden="true" />
+            <a href={`tel:+91${CONTACT.phones[0]}`} className="btn-red !px-5 sm:!px-6">
+              <Phone size={16} aria-hidden="true" />
               Call 93265 44812
             </a>
             <a
@@ -106,26 +105,25 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="btn-whatsapp !px-5 sm:!px-6"
             >
-              <MessageCircle size={17} aria-hidden="true" />
+              <MessageCircle size={16} aria-hidden="true" />
               <span className="sm:hidden">Free visit</span>
               <span className="hidden sm:inline">Free measurement on WhatsApp</span>
             </a>
           </div>
 
-          <ul className="mt-7 space-y-2.5 lg:order-1 lg:mt-8 lg:space-y-3 short:lg:mt-5 short:lg:space-y-2">
+          {/* Plain hanging dashes rather than ticks in coloured circles. */}
+          <ul className="mt-8 max-w-[34rem] space-y-2 lg:order-1 lg:mt-8 short:lg:mt-5 short:lg:space-y-1">
             {HERO_POINTS.map((point) => (
-              <li key={point} className="flex items-start gap-3 text-[0.9375rem] text-ink-soft">
-                <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-teal-wash text-teal">
-                  <Check size={12} strokeWidth={3} aria-hidden="true" />
-                </span>
+              <li key={point} className="flex gap-3 text-[0.95rem] leading-snug text-navy/70">
+                <span aria-hidden="true" className="mt-2.5 h-px w-3 shrink-0 bg-red" />
                 {point}
               </li>
             ))}
           </ul>
 
           {RATING.showRating && (
-            <p className="mt-6 text-sm text-ink-faint lg:order-3">
-              <strong className="text-ink">{RATING.score}★</strong> from {RATING.count} Google
+            <p className="mt-6 text-sm text-navy/60 lg:order-3">
+              <strong className="text-navy">{RATING.score}★</strong> from {RATING.count} Google
               reviews
             </p>
           )}

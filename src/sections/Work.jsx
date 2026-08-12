@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { X, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react'
 import Photo from '../components/Photo.jsx'
-import Reveal from '../components/Reveal.jsx'
 import { GALLERY } from '../data/gallery.gen.js'
 import { CATEGORIES } from '../../scripts/image-manifest.mjs'
 import { waLink, WA_DEFAULT } from '../data/site.js'
@@ -10,20 +9,22 @@ import { waLink, WA_DEFAULT } from '../data/site.js'
  * The portfolio.
  *
  * For a furnishing business this section is the sales pitch — nobody buys
- * curtains from a bulleted list. Every photograph here is the shop's own work,
- * filterable by what the visitor actually came for, and openable full-size
- * because people want to look closely at the pleat and the stitching.
+ * curtains from a bulleted list. Every photograph is the shop's own work,
+ * filterable by what the visitor came for, and openable full-size because
+ * people want to look closely at the pleat and the stitching.
  *
- * The grid is masonry-by-columns rather than a fixed aspect ratio: these are
- * phone photos in wildly different orientations, and cropping them all to a
- * square would butcher the tall curtain shots, which are the best ones.
+ * Masonry by CSS columns rather than a fixed aspect ratio: these are phone
+ * photographs in wildly different orientations, and cropping them all square
+ * would butcher the tall curtain shots, which are the best ones. The tiles sit
+ * flat on the paper with no border, radius or shadow — see DESIGN.md.
  */
+
 /**
  * How many photos to show before the "show all" button.
  *
  * All 59 at once is roughly nine screens of scrolling on a phone, which buries
- * the "why us", "how it works" and contact sections underneath it. Eighteen is
- * enough to prove the range and still let someone reach the phone number.
+ * the sections below it. Eighteen proves the range and still lets someone reach
+ * the phone number.
  */
 const INITIAL_COUNT = 18
 
@@ -37,11 +38,11 @@ export default function Work() {
     [filter],
   )
 
-  // Every matching photo is rendered into the DOM and the overflow is hidden
-  // with CSS, rather than sliced out of the array. Two reasons: the markup
-  // stays complete for crawlers and Google Images (these photographs, with
-  // their descriptive alt text, are themselves a search surface), and a
-  // display:none image is never fetched, so hiding them costs no bandwidth.
+  // Every matching photo is rendered into the DOM and the overflow hidden with
+  // CSS, rather than sliced out of the array: the markup stays complete for
+  // crawlers and Google Images (these photographs, with their descriptive alt
+  // text, are themselves a search surface), and a display:none image is never
+  // fetched, so hiding them costs no bandwidth.
   const hidden = expanded ? 0 : Math.max(0, matching.length - INITIAL_COUNT)
 
   // Categories that actually have photos — no empty tabs if the manifest changes.
@@ -58,7 +59,6 @@ export default function Work() {
     [matching.length],
   )
 
-  // Keyboard control for the lightbox, and lock the page behind it.
   useEffect(() => {
     if (lightbox === null) return
     const onKey = (e) => {
@@ -77,22 +77,24 @@ export default function Work() {
   const active = lightbox === null ? null : matching[lightbox]
 
   return (
-    <section id="work" className="border-y border-ink/10 bg-linen-deep py-20 lg:py-28">
+    <section id="work" className="bg-paper-deep py-16 lg:py-24">
       <div className="container-page">
-        <Reveal>
-          <p className="eyebrow">Our work</p>
-          <h2 className="h-section mt-4 max-w-2xl text-balance">
-            {GALLERY.length} jobs from homes across Thane
-          </h2>
-          <p className="prose-body mt-5 max-w-2xl text-pretty">
-            Every photograph below is our own work, in a real customer's home or
-            on our workshop floor. Nothing on this page is a stock photo or a
-            catalogue render.
-          </p>
-        </Reveal>
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div className="max-w-2xl">
+            <span aria-hidden="true" className="rule-mark" />
+            <h2 className="h-section text-balance">
+              {GALLERY.length} jobs from homes across Thane
+            </h2>
+            <p className="prose-body mt-5 text-pretty">
+              Every photograph below is our own work, in a real customer's home or
+              on our workshop floor. Nothing on this page is a stock photo or a
+              catalogue render.
+            </p>
+          </div>
+        </div>
 
         {/* Category filter — horizontally scrollable on phones. */}
-        <div className="no-scrollbar mt-9 -mx-5 flex gap-2 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:px-0">
+        <div className="no-scrollbar -mx-5 mt-9 flex gap-2 overflow-x-auto px-5 sm:mx-0 sm:flex-wrap sm:px-0">
           {tabs.map((c) => {
             const isActive = filter === c.key
             const count =
@@ -106,14 +108,14 @@ export default function Work() {
                   setExpanded(false)
                 }}
                 aria-pressed={isActive}
-                className={`shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition ${
+                className={`shrink-0 border-2 px-4 py-2 font-display text-[0.78rem] font-bold uppercase tracking-[0.08em] transition-colors ${
                   isActive
-                    ? 'border-teal bg-teal text-linen'
-                    : 'border-ink/15 bg-linen text-ink-soft hover:border-ink/35'
+                    ? 'border-navy bg-navy text-paper'
+                    : 'border-navy/20 text-navy/70 hover:border-navy hover:text-navy'
                 }`}
               >
                 {c.label}
-                <span className={isActive ? 'ml-1.5 text-linen/60' : 'ml-1.5 text-ink-faint'}>
+                <span className={isActive ? 'ml-2 text-paper/55' : 'ml-2 text-navy/40'}>
                   {count}
                 </span>
               </button>
@@ -121,14 +123,13 @@ export default function Work() {
           })}
         </div>
 
-        {/* CSS columns give a masonry flow without measuring anything in JS. */}
-        <div className="mt-9 gap-4 [column-count:2] sm:[column-count:2] lg:[column-count:3]">
+        <div className="mt-8 gap-3 [column-count:2] lg:[column-count:3]">
           {matching.map((img, i) => (
             <button
               key={img.name}
               type="button"
               onClick={() => setLightbox(i)}
-              className={`group mb-4 w-full break-inside-avoid overflow-hidden rounded-xl border border-ink/10 bg-linen text-left shadow-frame transition hover:shadow-lift ${
+              className={`group mb-3 w-full break-inside-avoid overflow-hidden bg-paper text-left ${
                 !expanded && i >= INITIAL_COUNT ? 'hidden' : 'block'
               }`}
               aria-label={`View larger: ${img.alt}`}
@@ -136,14 +137,14 @@ export default function Work() {
               <Photo
                 name={img.name}
                 sizes="(max-width: 640px) 46vw, (max-width: 1024px) 46vw, 31vw"
-                className="w-full transition duration-500 group-hover:scale-[1.03]"
+                className="w-full transition-transform duration-500 group-hover:scale-[1.04]"
               />
             </button>
           ))}
         </div>
 
         {hidden > 0 && (
-          <div className="mt-4 text-center">
+          <div className="mt-6">
             <button type="button" onClick={() => setExpanded(true)} className="btn-ghost">
               Show all {matching.length} photos
             </button>
@@ -156,17 +157,17 @@ export default function Work() {
           role="dialog"
           aria-modal="true"
           aria-label={active.alt}
-          className="fixed inset-0 z-[60] flex flex-col bg-ink/95 backdrop-blur-sm"
+          className="fixed inset-0 z-[60] flex flex-col bg-navy-deep/97"
           onClick={() => setLightbox(null)}
         >
-          <div className="flex items-center justify-between p-4 text-linen/70">
-            <span className="text-sm tabular-nums">
+          <div className="flex items-center justify-between p-4 text-paper/70">
+            <span className="font-display text-sm font-bold tabular-nums">
               {lightbox + 1} / {matching.length}
             </span>
             <button
               type="button"
               onClick={() => setLightbox(null)}
-              className="grid h-11 w-11 place-items-center rounded-full border border-linen/20 text-linen hover:bg-linen/10"
+              className="grid h-11 w-11 place-items-center border-2 border-paper/25 text-paper hover:bg-paper/10"
               aria-label="Close"
             >
               <X size={20} />
@@ -180,7 +181,7 @@ export default function Work() {
             <button
               type="button"
               onClick={() => step(-1)}
-              className="mr-2 hidden h-12 w-12 shrink-0 place-items-center rounded-full border border-linen/20 text-linen hover:bg-linen/10 sm:grid"
+              className="mr-2 hidden h-12 w-12 shrink-0 place-items-center border-2 border-paper/25 text-paper hover:bg-paper/10 sm:grid"
               aria-label="Previous photo"
             >
               <ChevronLeft size={22} />
@@ -191,13 +192,13 @@ export default function Work() {
               width={active.width}
               height={active.height}
               alt={active.alt}
-              className="max-h-full min-h-0 w-auto max-w-full rounded-lg object-contain"
+              className="max-h-full min-h-0 w-auto max-w-full object-contain"
             />
 
             <button
               type="button"
               onClick={() => step(1)}
-              className="ml-2 hidden h-12 w-12 shrink-0 place-items-center rounded-full border border-linen/20 text-linen hover:bg-linen/10 sm:grid"
+              className="ml-2 hidden h-12 w-12 shrink-0 place-items-center border-2 border-paper/25 text-paper hover:bg-paper/10 sm:grid"
               aria-label="Next photo"
             >
               <ChevronRight size={22} />
@@ -208,7 +209,7 @@ export default function Work() {
             className="flex flex-col items-center gap-3 p-4 text-center sm:flex-row sm:justify-between sm:text-left"
             onClick={(e) => e.stopPropagation()}
           >
-            <p className="max-w-2xl text-sm leading-relaxed text-linen/70">{active.alt}</p>
+            <p className="max-w-2xl text-sm leading-relaxed text-paper/70">{active.alt}</p>
             <a
               href={waLink(`${WA_DEFAULT}something like this: ${active.alt}`)}
               target="_blank"
@@ -222,10 +223,18 @@ export default function Work() {
 
           {/* Thumb-friendly prev/next on phones, where the side arrows are hidden. */}
           <div className="grid grid-cols-2 gap-2 p-3 sm:hidden" onClick={(e) => e.stopPropagation()}>
-            <button type="button" onClick={() => step(-1)} className="btn-ghost !bg-transparent !text-linen">
+            <button
+              type="button"
+              onClick={() => step(-1)}
+              className="btn border-2 border-paper/25 text-paper"
+            >
               <ChevronLeft size={18} aria-hidden="true" /> Previous
             </button>
-            <button type="button" onClick={() => step(1)} className="btn-ghost !bg-transparent !text-linen">
+            <button
+              type="button"
+              onClick={() => step(1)}
+              className="btn border-2 border-paper/25 text-paper"
+            >
               Next <ChevronRight size={18} aria-hidden="true" />
             </button>
           </div>

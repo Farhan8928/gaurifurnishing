@@ -3,6 +3,10 @@
 Marketing site for a furnishing shop and workshop in Vartak Nagar, Thane (W).
 Vite + React + Tailwind, deployed as static files.
 
+- **[DESIGN.md](DESIGN.md)** — **read this before touching any layout.** The
+  palette, type, shape and motion rules, and why each was chosen. The first
+  version of this site looked machine-made; this file is what stops it drifting
+  back.
 - **[SEO-PLAN.md](SEO-PLAN.md)** — what is built in, what still has to be done
   off-site, and **five things to confirm with the client before launch**.
 - **[CALLS-PLAYBOOK.md](CALLS-PLAYBOOK.md)** — the weekly routine and copy-paste
@@ -52,6 +56,9 @@ src/data/faqs.js            ← FAQ copy, mirrored into the FAQPage JSON-LD in
                               index.html. Keep the two in sync.
 src/data/gallery.gen.js     ← GENERATED. Do not edit.
 
+DESIGN.md                   ← palette, type, shape, motion. Read before
+                              changing any layout.
+
 scripts/image-manifest.mjs  ← which client photos are used, their SEO filenames
                               and alt text. The one file to edit when new
                               photos arrive.
@@ -78,14 +85,17 @@ be re-added — two carry other companies' watermarks (Livspace, Carve Style), o
 is a screenshot of a chat, and one was shot in an unrelated retail showroom. The
 reasons are documented at the top of `scripts/image-manifest.mjs`.
 
-## Two things not to undo
+## Three things not to undo
 
 - **No `aggregateRating` in the schema.** The shop has no verified Google rating
   yet. Publishing one is a structured-data violation that can strip the whole
   domain of rich results. The audit warns if it ever appears. See SEO-PLAN § A.
 - **No `import * as Icons from 'lucide-react'`.** It defeats tree-shaking and
-  pulls all ~1,500 icons into the bundle — it was 700 kB of the first build. Add
-  icons to `src/components/icons.js` instead.
+  pulls all ~1,500 icons into the bundle — it was 700 kB of the first build.
+  Import the handful of functional icons by name, as the components do now.
+- **No decorative icons, no blurred colour orbs, no three-card grids, no
+  scroll-reveal on every section.** These are the specific patterns that made
+  the first version read as generated. DESIGN.md explains each one.
 
 ## Deploying
 

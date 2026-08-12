@@ -44,14 +44,14 @@ export default function CtaBars() {
   return (
     <>
       <div
-        className={`fixed inset-x-0 bottom-0 z-40 border-t border-ink/10 bg-linen/95 backdrop-blur-md transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed inset-x-0 bottom-0 z-40 border-t-2 border-navy/15 bg-paper transition-transform duration-300 ease-out md:hidden ${
           shown ? 'translate-y-0' : 'translate-y-full'
         }`}
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
         aria-hidden={!shown}
       >
         <div className="grid grid-cols-2 gap-2 p-2.5">
-          <a href={`tel:+91${CONTACT.phones[0]}`} className="btn-primary !py-3.5" tabIndex={shown ? 0 : -1}>
+          <a href={`tel:+91${CONTACT.phones[0]}`} className="btn-red !py-3.5" tabIndex={shown ? 0 : -1}>
             <Phone size={17} aria-hidden="true" />
             Call now
           </a>

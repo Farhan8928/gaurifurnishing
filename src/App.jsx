@@ -21,7 +21,7 @@ export default function App() {
     <>
       <a
         href="#services"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-teal focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-linen"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-red focus:px-5 focus:py-3 focus:font-display focus:text-sm focus:font-bold focus:text-paper"
       >
         Skip to content
       </a>

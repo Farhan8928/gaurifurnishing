@@ -1,4 +1,9 @@
-/** @type {import('tailwindcss').Config} */
+/**
+ * Design tokens. The reasoning behind every value here is in DESIGN.md —
+ * read it before adding anything, especially before adding a colour.
+ *
+ * @type {import('tailwindcss').Config}
+ */
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
@@ -7,60 +12,77 @@ export default {
         /**
          * Height-based breakpoint, not width-based.
          *
-         * Laptops are the case that width breakpoints miss entirely. A 1080p
-         * panel at Windows 125% scaling reports ~1536 CSS px wide — firmly
-         * `lg`, so it gets the desktop layout — but only ~730 px tall once
-         * browser chrome is subtracted, and a 768p laptop gets ~625 px. A hero
-         * sized for a 1000 px-tall window pushes its call-to-action buttons
-         * clean off the screen on both.
-         *
-         * `short:` compresses the vertical rhythm on those screens while
-         * leaving taller windows with the roomier design.
+         * Laptops are the case width breakpoints miss entirely. A 1080p panel
+         * at Windows 125% scaling reports ~1536 CSS px wide — firmly `lg`, so
+         * it gets the desktop layout — but only ~730px tall once browser chrome
+         * is subtracted, and a 768p laptop gets ~625px. A hero sized for a
+         * 1000px-tall window pushes its call-to-action clean off the screen.
          */
         short: { raw: '(max-height: 820px)' },
       },
+
+      /**
+       * Lifted from the shop's own signboard and visiting card: navy poster
+       * lettering, a signal-red second line, a yellow rule, cream ground.
+       * Three active hues. No teal, no indigo, no gradients.
+       */
       colors: {
-        // Linen base — the whole site sits on this rather than pure white, so
-        // fabric photography reads as if laid on a showroom table.
-        linen: {
-          DEFAULT: '#faf6ef',
-          deep: '#f0e9dd',
-          dark: '#e3d9c8',
+        paper: {
+          DEFAULT: '#f5f1e6',
+          deep: '#eae3d2',
+          dark: '#ddd3bc',
         },
-        // Warm charcoal — body text, borders, the dark sections.
-        ink: {
-          DEFAULT: '#1c1917',
-          soft: '#4a443d',
-          faint: '#7a7269',
+        navy: {
+          DEFAULT: '#20286e',
+          deep: '#161c4f',
+          soft: '#4b5290',
+          faint: '#8085ad',
         },
-        // Deep teal — pulled straight from the shop's own velvet sofas and
-        // upholstered headboards, which are teal in photo after photo.
-        teal: {
-          DEFAULT: '#0f5f5c',
-          deep: '#0a4442',
-          bright: '#16867f',
-          wash: '#e5f0ef',
+        red: {
+          DEFAULT: '#e1251b',
+          deep: '#b81c14',
         },
-        // Brass — the gold inlay on their headboards and sofa trims.
-        brass: {
-          DEFAULT: '#b8893f',
-          deep: '#966d2d',
-          light: '#e0c48a',
+        sunflower: {
+          DEFAULT: '#ffc825',
+          deep: '#e0a900',
         },
+        // Semantic, deliberately outside the brand palette — only ever used on
+        // a control that opens WhatsApp.
         whatsapp: '#1fb658',
-        clay: '#b4552f',
       },
+
       fontFamily: {
-        // Fraunces is a high-contrast editorial serif — it carries the
-        // "interiors magazine" register that furnishing buyers expect.
-        display: ['Fraunces', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        // The inverse of the default serif-display/Inter-body pairing.
+        display: ['Archivo', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        sans: ['Newsreader', 'Georgia', 'serif'],
       },
-      boxShadow: {
-        soft: '0 2px 8px -2px rgb(28 25 23 / 0.10), 0 8px 24px -8px rgb(28 25 23 / 0.12)',
-        lift: '0 4px 12px -4px rgb(28 25 23 / 0.14), 0 18px 40px -12px rgb(28 25 23 / 0.18)',
-        frame: '0 0 0 1px rgb(28 25 23 / 0.08)',
+
+      // Printed things have corners. 2px on controls, square everywhere else.
+      borderRadius: {
+        none: '0',
+        DEFAULT: '2px',
+        sm: '2px',
+        md: '2px',
+        lg: '3px',
+        xl: '3px',
+        '2xl': '4px',
+        full: '9999px',
       },
+
+      // Editorial scale, ×1.333.
+      fontSize: {
+        xs: ['0.75rem', { lineHeight: '1.5' }],
+        sm: ['0.875rem', { lineHeight: '1.55' }],
+        base: ['1.0625rem', { lineHeight: '1.65' }],
+        lg: ['1.1875rem', { lineHeight: '1.6' }],
+        xl: ['1.4375rem', { lineHeight: '1.4' }],
+        '2xl': ['1.75rem', { lineHeight: '1.25' }],
+        '3xl': ['2.35rem', { lineHeight: '1.12' }],
+        '4xl': ['3.1rem', { lineHeight: '1.05' }],
+        '5xl': ['4.1rem', { lineHeight: '1.0' }],
+        '6xl': ['5.5rem', { lineHeight: '0.96' }],
+      },
+
       keyframes: {
         marquee: {
           from: { transform: 'translateX(0)' },
@@ -68,7 +90,7 @@ export default {
         },
       },
       animation: {
-        marquee: 'marquee 38s linear infinite',
+        marquee: 'marquee 42s linear infinite',
       },
     },
   },

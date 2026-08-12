@@ -1,31 +1,37 @@
 import { Phone, MessageCircle } from 'lucide-react'
-import Reveal from '../components/Reveal.jsx'
 import { CONTACT, fmtPhone, waLink, WA_DEFAULT } from '../data/site.js'
 
 /**
  * Closing call to action.
  *
- * The last thing on the page before the footer should be the same two buttons
- * that were in the hero — a visitor who has scrolled the whole gallery is the
- * most likely to call, and should not have to scroll back up to do it.
+ * Left-aligned against a large photograph-free navy block, not a centred
+ * three-line stack — centred hero-style closers are the default shape and this
+ * page has already used a centred composition nowhere else, so a centred one
+ * here would be the only symmetric moment on the site.
  */
 export default function FinalCta() {
   return (
-    <section className="bg-ink py-20 text-linen lg:py-24">
-      <div className="container-page text-center">
-        <Reveal>
-          <h2 className="mx-auto max-w-3xl font-display text-3xl font-semibold leading-tight text-balance sm:text-4xl lg:text-[2.75rem]">
-            Tell us the room. We will bring the fabric to it.
+    <section className="bg-navy-deep py-16 text-paper lg:py-20">
+      <div className="container-page grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-end lg:gap-16">
+        <div>
+          <span aria-hidden="true" className="rule-mark" />
+          <h2 className="text-3xl leading-[1.05] text-balance sm:text-4xl lg:text-[3.1rem]">
+            Tell us the room.
+            <br />
+            We will bring the fabric to it.
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-[1.0625rem] leading-relaxed text-linen/70 text-pretty">
+        </div>
+
+        <div>
+          <p className="text-lg leading-relaxed text-paper/70 text-pretty">
             Free measurement anywhere in Thane, a fixed price in writing, and no
             charge if you decide against it.
           </p>
 
-          <div className="mt-9 flex flex-wrap justify-center gap-3">
-            <a href={`tel:+91${CONTACT.phones[0]}`} className="btn-primary !bg-linen !text-ink hover:!bg-linen-dark">
-              <Phone size={17} aria-hidden="true" />
-              Call {fmtPhone(CONTACT.phones[0])}
+          <div className="mt-7 flex flex-wrap gap-2.5">
+            <a href={`tel:+91${CONTACT.phones[0]}`} className="btn-red">
+              <Phone size={16} aria-hidden="true" />
+              {fmtPhone(CONTACT.phones[0])}
             </a>
             <a
               href={waLink(`${WA_DEFAULT}my home in Thane.`)}
@@ -33,15 +39,15 @@ export default function FinalCta() {
               rel="noopener noreferrer"
               className="btn-whatsapp"
             >
-              <MessageCircle size={17} aria-hidden="true" />
-              Message on WhatsApp
+              <MessageCircle size={16} aria-hidden="true" />
+              WhatsApp
             </a>
           </div>
 
-          <p className="mt-6 text-sm text-linen/45">
+          <p className="mt-5 text-sm text-paper/45">
             Ask for {CONTACT.proprietor} · {CONTACT.hours}
           </p>
-        </Reveal>
+        </div>
       </div>
     </section>
   )

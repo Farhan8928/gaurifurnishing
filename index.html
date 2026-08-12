@@ -27,7 +27,7 @@
     <meta name="bingbot" content="index, follow" />
     <meta name="rating" content="general" />
     <meta name="format-detection" content="telephone=yes" />
-    <meta name="theme-color" content="#faf6ef" />
+    <meta name="theme-color" content="#f5f1e6" />
 
     <!-- Canonical + language. Mirrored in robots.txt, sitemap.xml and JSON-LD —
          if the final domain changes, all four must change together. -->
@@ -67,34 +67,17 @@
     />
     <meta name="twitter:image" content="https://gourifurnishing.com/og-image.jpg" />
 
-    <!-- Boot script for the scroll-reveal fallback. Must run before first
-         paint, hence inline and here rather than in the bundle.
-
-         `html.js` is what lets the CSS hide un-revealed sections. Setting it
-         from script means a visitor with JavaScript disabled never gets the
-         hidden state at all. The watchdog then covers the nastier case: the
-         bundle 404s or a chunk fails on a weak connection, React never boots,
-         and the sections would otherwise stay invisible forever. If nothing has
-         set data-app-ready within four seconds, the class comes off and the
-         page renders as plain, fully visible content. -->
-    <script>
-      ;(function () {
-        var d = document.documentElement
-        d.classList.add('js')
-        setTimeout(function () {
-          if (!d.hasAttribute('data-app-ready')) d.classList.remove('js')
-        }, 4000)
-      })()
-    </script>
-
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Archivo (heavy grotesque, set tight) for display; Newsreader (serif)
+         for body. Deliberately the inverse of the serif-display/Inter-body
+         pairing that every generated site ships with — see DESIGN.md. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap"
       rel="stylesheet"
     />
 

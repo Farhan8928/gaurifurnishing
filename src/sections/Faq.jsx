@@ -1,51 +1,51 @@
-import { Plus } from 'lucide-react'
-import Reveal from '../components/Reveal.jsx'
 import { FAQS } from '../data/faqs.js'
 
 /**
  * FAQ.
  *
- * Rendered as native <details> rather than a JS accordion, for three reasons:
- * it works before React hydrates, screen readers already know what it is, and
- * the answer text is in the DOM for crawlers even while collapsed — which is
- * the whole point, since this content is mirrored into the FAQPage JSON-LD and
- * is what feeds AI Overviews and voice answers.
+ * Native <details> rather than a JavaScript accordion, for three reasons: it
+ * works before React hydrates, screen readers already know what it is, and the
+ * answer text is in the DOM for crawlers even while collapsed — which is the
+ * whole point, since this content is mirrored into the FAQPage JSON-LD and is
+ * what feeds AI Overviews and voice answers.
  */
 export default function Faq() {
   return (
-    <section id="faq" className="border-y border-ink/10 bg-linen-deep py-20 lg:py-28">
-      <div className="container-page grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        <Reveal>
-          <p className="eyebrow">Questions</p>
-          <h2 className="h-section mt-4 text-balance">Things people ask before they call</h2>
+    <section id="faq" className="py-16 lg:py-24">
+      <div className="container-page grid gap-10 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          <span aria-hidden="true" className="rule-mark" />
+          <h2 className="h-section text-balance">Things people ask before they call</h2>
           <p className="prose-body mt-5 text-pretty">
             If yours is not here, ask on WhatsApp — Firoz answers the number
             himself.
           </p>
-        </Reveal>
+        </div>
 
-        <Reveal>
-          <div className="divide-y divide-ink/10 border-y border-ink/10">
-            {FAQS.map((faq) => (
-              <details key={faq.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-left">
-                  <h3 className="font-display text-lg font-semibold leading-snug text-ink">
-                    {faq.q}
-                  </h3>
-                  <span
-                    aria-hidden="true"
-                    className="mt-1 grid h-7 w-7 shrink-0 place-items-center rounded-full border border-ink/15 text-ink-soft transition group-open:rotate-45 group-open:border-teal group-open:bg-teal group-open:text-linen"
-                  >
-                    <Plus size={15} />
-                  </span>
-                </summary>
-                <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-ink-soft">
-                  {faq.a}
-                </p>
-              </details>
-            ))}
-          </div>
-        </Reveal>
+        <div>
+          {FAQS.map((faq) => (
+            <details
+              key={faq.q}
+              className="group border-t border-navy/15 py-5 last:border-b last:border-navy/15"
+            >
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-left">
+                <h3 className="font-display text-lg font-bold leading-snug tracking-[-0.02em] sm:text-xl">
+                  {faq.q}
+                </h3>
+                {/* A plain rotating bar, not a circled icon. */}
+                <span
+                  aria-hidden="true"
+                  className="relative mt-2 h-[3px] w-4 shrink-0 bg-red transition-transform duration-200 group-open:rotate-180"
+                >
+                  <span className="absolute inset-0 bg-red transition-transform duration-200 group-open:opacity-0 [transform:rotate(90deg)]" />
+                </span>
+              </summary>
+              <p className="mt-3 max-w-[44rem] leading-relaxed text-navy/75 text-pretty">
+                {faq.a}
+              </p>
+            </details>
+          ))}
+        </div>
       </div>
     </section>
   )

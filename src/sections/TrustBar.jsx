@@ -1,43 +1,47 @@
 import { MATERIALS, TRUST_STATS } from '../data/site.js'
 
 /**
- * A dark band under the hero carrying the headline proof points, followed by a
- * marquee of the materials the shop works in.
+ * A red band of proof points under the hero, then a marquee of materials.
  *
- * The marquee is decorative but does real work: "velvet", "chenille",
- * "blackout", "zebra blind" are the words customers actually search for, and
- * seeing their own material named is what tells a visitor this shop can do
- * their specific job.
+ * The band is the one place red covers a full width — DESIGN.md allows red for
+ * a single idea per screen, and this is it. The marquee reads as a swatch rail:
+ * "velvet", "chenille", "blackout", "zebra blind" are the words customers
+ * actually search for, and seeing their own material named is what tells a
+ * visitor this shop can do their specific job.
  */
 export default function TrustBar() {
   return (
-    <section className="mt-10 bg-ink py-12 text-linen lg:mt-16" aria-label="What we are known for">
-      <div className="container-page grid grid-cols-2 gap-x-6 gap-y-9 sm:grid-cols-4">
-        {TRUST_STATS.map((s) => (
-          <div key={s.label}>
-            <p className="font-display text-3xl font-semibold text-linen sm:text-4xl">{s.value}</p>
-            <p className="mt-1.5 text-xs uppercase tracking-[0.14em] text-linen/50">{s.label}</p>
-          </div>
-        ))}
+    <section aria-label="What we are known for">
+      <div className="bg-red text-paper">
+        <div className="container-page grid grid-cols-2 gap-x-6 gap-y-7 py-9 sm:grid-cols-4 lg:py-11">
+          {TRUST_STATS.map((s) => (
+            <div key={s.label}>
+              <p className="font-display text-2xl font-extrabold leading-none sm:text-3xl">
+                {s.value}
+              </p>
+              <p className="mt-2 font-display text-[0.7rem] font-bold uppercase tracking-[0.14em] text-paper/75">
+                {s.label}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="relative mt-11 flex overflow-hidden border-y border-linen/10 py-4">
+      <div className="flex overflow-hidden border-b-2 border-navy/10 bg-navy py-3.5">
         {/* Two identical tracks so the loop has no visible seam. */}
         {[0, 1].map((copy) => (
           <ul
             key={copy}
             aria-hidden={copy === 1}
-            className="flex shrink-0 animate-marquee items-center gap-8 pr-8"
+            className="flex shrink-0 animate-marquee items-center gap-7 pr-7"
           >
             {MATERIALS.map((m) => (
               <li
                 key={m}
-                className="whitespace-nowrap text-sm font-medium uppercase tracking-[0.16em] text-linen/45"
+                className="flex items-center gap-7 whitespace-nowrap font-display text-xs font-bold uppercase tracking-[0.18em] text-paper/55"
               >
                 {m}
-                <span aria-hidden="true" className="ml-8 text-brass/60">
-                  ·
-                </span>
+                <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 bg-sunflower" />
               </li>
             ))}
           </ul>

@@ -27,9 +27,3 @@ if (container.hasChildNodes()) {
 } else {
   ReactDOM.createRoot(container).render(tree)
 }
-
-// Tells the watchdog in index.html that the app started, so it leaves the `js`
-// class in place and the scroll-reveal animations stay armed. If this line is
-// never reached — a failed bundle, a thrown error during boot — the watchdog
-// strips the class after four seconds and every section becomes visible.
-document.documentElement.setAttribute('data-app-ready', '')
