@@ -1,11 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Gouri Mattresses &amp; Furnishing">
-  <rect width="64" height="64" rx="14" fill="#0f5f5c"/>
-  <!-- Four curtain pleats: the trade in one mark, and still legible at 16px. -->
-  <g fill="none" stroke="#e0c48a" stroke-width="3.4" stroke-linecap="round">
-    <path d="M17 15v34"/>
-    <path d="M27 15v34"/>
-    <path d="M37 15v34"/>
-    <path d="M47 15v34"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#20286e"/>
+  <g stroke="#ffc825" stroke-width="7" stroke-linecap="butt">
+    <path d="M19 19V53"/>
+    <path d="M32 19V53"/>
+    <path d="M45 19V53"/>
   </g>
-  <path d="M12 15h40" stroke="#faf6ef" stroke-width="4" stroke-linecap="round"/>
+  <path d="M10 15H54" stroke="#f5f1e6" stroke-width="7" stroke-linecap="butt"/>
 </svg>

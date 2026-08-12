@@ -6,12 +6,14 @@
   "scripts": {
     "dev": "vite",
     "images": "node scripts/process-images.mjs",
+    "brand": "node scripts/make-brand-assets.mjs",
     "build:ssr": "vite build --ssr src/entry-server.jsx --outDir dist-ssr",
-    "build": "vite build && node scripts/css-audit.mjs && npm run build:ssr && node scripts/generate-pages.mjs && node scripts/prerender.mjs && node scripts/final-seo-audit.mjs",
+    "build": "vite build && node scripts/css-audit.mjs && npm run build:ssr && node scripts/generate-pages.mjs && node scripts/prerender.mjs && node scripts/brand-audit.mjs && node scripts/final-seo-audit.mjs",
     "build:fast": "vite build",
     "preview": "vite preview",
     "seo-audit": "node scripts/final-seo-audit.mjs",
     "css-audit": "node scripts/css-audit.mjs",
+    "brand-audit": "node scripts/brand-audit.mjs",
     "viewport-audit": "node scripts/viewport-audit.mjs"
   },
   "dependencies": {

@@ -18,9 +18,12 @@ Vite + React + Tailwind, deployed as static files.
 npm install
 npm run dev             # local dev server on :5174 — homepage only, see below
 npm run images          # re-render the photo set after editing the manifest
+npm run brand           # regenerate favicon, PWA icons and the OG share card
 npm run build           # vite build → generate 114 pages → prerender → SEO audit
 npm run preview         # serve dist/ locally — this is how to see everything
 npm run seo-audit       # re-run the SEO audit against an existing dist/
+npm run css-audit       # catch Tailwind classes that compile to nothing
+npm run brand-audit     # catch favicon/icons/manifest drifting off-palette
 npm run viewport-audit  # check every CTA is above the fold on real screen sizes
 ```
 
@@ -58,6 +61,9 @@ src/data/gallery.gen.js     ← GENERATED. Do not edit.
 
 DESIGN.md                   ← palette, type, shape, motion. Read before
                               changing any layout.
+src/data/brand.js           ← the palette hexes, imported by BOTH
+                              tailwind.config.js and the brand-asset
+                              generator so they cannot drift apart.
 
 scripts/image-manifest.mjs  ← which client photos are used, their SEO filenames
                               and alt text. The one file to edit when new
@@ -67,7 +73,9 @@ scripts/seo-pages.mjs       ← the landing-page templates and per-area copy
 scripts/generate-pages.mjs  ← writes them into dist/ + sitemap.xml
 scripts/prerender.mjs       ← bakes the rendered React markup into dist/index.html
 scripts/final-seo-audit.mjs ← the build gate
-scripts/make-brand-assets.mjs ← icons + og-image.jpg (run once)
+scripts/make-brand-assets.mjs ← favicon.svg + icons + og-image.jpg
+scripts/css-audit.mjs       ← fails the build on classes that compile to nothing
+scripts/brand-audit.mjs     ← fails the build if brand assets go off-palette
 
 client-images/              ← the originals from the client, untouched
 ```

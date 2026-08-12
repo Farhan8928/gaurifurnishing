@@ -1,6 +1,12 @@
+import { BRAND } from './src/data/brand.js'
+
 /**
  * Design tokens. The reasoning behind every value here is in DESIGN.md —
  * read it before adding anything, especially before adding a colour.
+ *
+ * Colours are imported rather than written here, so the site and the generated
+ * brand assets (favicon, PWA icons, OG card) cannot drift apart. See
+ * src/data/brand.js.
  *
  * @type {import('tailwindcss').Config}
  */
@@ -28,27 +34,27 @@ export default {
        */
       colors: {
         paper: {
-          DEFAULT: '#f5f1e6',
-          deep: '#eae3d2',
-          dark: '#ddd3bc',
+          DEFAULT: BRAND.paper,
+          deep: BRAND.paperDeep,
+          dark: BRAND.paperDark,
         },
         navy: {
-          DEFAULT: '#20286e',
-          deep: '#161c4f',
-          soft: '#4b5290',
-          faint: '#8085ad',
+          DEFAULT: BRAND.navy,
+          deep: BRAND.navyDeep,
+          soft: BRAND.navySoft,
+          faint: BRAND.navyFaint,
         },
         red: {
-          DEFAULT: '#e1251b',
-          deep: '#b81c14',
+          DEFAULT: BRAND.red,
+          deep: BRAND.redDeep,
         },
         sunflower: {
-          DEFAULT: '#ffc825',
-          deep: '#e0a900',
+          DEFAULT: BRAND.sunflower,
+          deep: BRAND.sunflowerDeep,
         },
         // Semantic, deliberately outside the brand palette — only ever used on
         // a control that opens WhatsApp.
-        whatsapp: '#1fb658',
+        whatsapp: BRAND.whatsapp,
       },
 
       fontFamily: {
