@@ -67,6 +67,26 @@
     />
     <meta name="twitter:image" content="https://gourifurnishing.com/og-image.jpg" />
 
+    <!-- Boot script for the scroll-reveal fallback. Must run before first
+         paint, hence inline and here rather than in the bundle.
+
+         `html.js` is what lets the CSS hide un-revealed sections. Setting it
+         from script means a visitor with JavaScript disabled never gets the
+         hidden state at all. The watchdog then covers the nastier case: the
+         bundle 404s or a chunk fails on a weak connection, React never boots,
+         and the sections would otherwise stay invisible forever. If nothing has
+         set data-app-ready within four seconds, the class comes off and the
+         page renders as plain, fully visible content. -->
+    <script>
+      ;(function () {
+        var d = document.documentElement
+        d.classList.add('js')
+        setTimeout(function () {
+          if (!d.hasAttribute('data-app-ready')) d.classList.remove('js')
+        }, 4000)
+      })()
+    </script>
+
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />

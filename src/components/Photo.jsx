@@ -44,7 +44,11 @@ export default function Photo({
       alt={altOverride ?? img.alt}
       loading={priority ? 'eager' : 'lazy'}
       decoding={priority ? 'sync' : 'async'}
-      fetchPriority={priority ? 'high' : 'auto'}
+      // Lowercase deliberately: React 18 does not recognise the camelCase
+      // `fetchPriority` prop and warns during server rendering, whereas an
+      // all-lowercase unknown attribute is passed straight through to the DOM,
+      // which is exactly what the browser wants to read.
+      fetchpriority={priority ? 'high' : 'auto'}
       className={className}
     />
   )

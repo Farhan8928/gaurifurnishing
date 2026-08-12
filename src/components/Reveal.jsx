@@ -4,15 +4,22 @@ import { useEffect, useRef, useState } from 'react'
  * Fades and lifts its children into view once, the first time they are
  * scrolled to.
  *
- * Written against IntersectionObserver and a CSS transition rather than an
- * animation library on purpose. This is an image-heavy site whose visitors are
- * overwhelmingly on phones on mobile data, and pulling in framer-motion for one
- * fade cost about 100 kB gzipped — more than every photograph above the fold
- * put together. Twenty lines of CSS do the same job.
+ * The hidden state lives in CSS under a `.js` class on <html>, not in an inline
+ * `opacity: 0` style. That distinction matters because the homepage is
+ * prerendered: with inline styles, the shipped HTML contained 26 sections at
+ * `opacity: 0`, so anything that read the page without successfully running our
+ * JavaScript — a blocked bundle, a failed chunk on a bad connection, a
+ * screenshotting crawler — saw a mostly blank page with the text technically
+ * present but invisible.
  *
- * Deliberately subtle: 16px of travel over 500ms. A furnishing site is judged
- * on whether the photographs look calm and expensive, and animation that draws
- * attention to itself works against that.
+ * Now the hiding only ever applies once JavaScript has proved it is running
+ * (see the boot script in index.html), and a watchdog there un-hides everything
+ * if the app fails to start. No JavaScript, or broken JavaScript, degrades to
+ * plain visible content.
+ *
+ * Written against IntersectionObserver and a CSS transition rather than an
+ * animation library: pulling in framer-motion for one fade cost ~100 kB
+ * gzipped, more than every photograph above the fold put together.
  */
 export default function Reveal({ children, delay = 0, y = 16, className = '' }) {
   const ref = useRef(null)
@@ -24,7 +31,7 @@ export default function Reveal({ children, delay = 0, y = 16, className = '' }) 
 
     // Respect the OS "reduce motion" setting, and skip the observer entirely
     // where IntersectionObserver is unavailable — content must never be stuck
-    // at opacity 0.
+    // hidden.
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
     if (reduced || typeof IntersectionObserver === 'undefined') {
       setShown(true)
@@ -47,12 +54,8 @@ export default function Reveal({ children, delay = 0, y = 16, className = '' }) 
   return (
     <div
       ref={ref}
-      className={className}
-      style={{
-        opacity: shown ? 1 : 0,
-        transform: shown ? 'none' : `translateY(${y}px)`,
-        transition: `opacity 500ms cubic-bezier(.22,1,.36,1) ${delay}s, transform 500ms cubic-bezier(.22,1,.36,1) ${delay}s`,
-      }}
+      className={`reveal${shown ? ' is-visible' : ''}${className ? ` ${className}` : ''}`}
+      style={{ '--reveal-y': `${y}px`, transitionDelay: delay ? `${delay}s` : undefined }}
     >
       {children}
     </div>

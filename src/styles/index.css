@@ -93,6 +93,29 @@
   .hairline {
     @apply h-px w-full bg-gradient-to-r from-transparent via-ink/15 to-transparent;
   }
+
+  /* ── Scroll reveal ────────────────────────────────────────────────────
+     The hidden state is scoped to `html.js`, which the boot script in
+     index.html only sets once JavaScript is actually running — and removes
+     again if the app fails to start. So the default, and the fallback, is
+     visible content. See src/components/Reveal.jsx. */
+  .reveal {
+    transition:
+      opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .js .reveal:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(var(--reveal-y, 16px));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal:not(.is-visible) {
+      opacity: 1;
+      transform: none;
+    }
+  }
 }
 
 @layer utilities {
