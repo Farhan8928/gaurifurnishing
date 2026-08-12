@@ -20,15 +20,15 @@ export const GALLERY = [
   },
   {
     "name": "curtain-fabric-collection-pink-gold-thane",
-    "category": "shop",
-    "alt": "Curtain fabric samples in the Thane showroom — dusty pink damask and gold trellis pinch-pleat panels",
+    "category": "curtains",
+    "alt": "Dusty pink damask and gold trellis pinch-pleat curtain samples on the display rail at the Vartak Nagar showroom",
     "width": 720,
     "height": 1280
   },
   {
     "name": "curtain-fabric-collection-grey-thane",
-    "category": "shop",
-    "alt": "Grey striped sheer and charcoal blackout curtain samples hanging in the Gouri Furnishing showroom, Thane",
+    "category": "curtains",
+    "alt": "Grey striped sheer and charcoal blackout pinch-pleat curtain samples hanging on the showroom display rail",
     "width": 720,
     "height": 1280
   },
@@ -422,7 +422,7 @@ export const GALLERY = [
   },
   {
     "name": "wallpaper-pastel-floral-mural-bedroom",
-    "category": "wallpaper",
+    "category": "headboards",
     "hero": true,
     "alt": "Pastel floral mural wallpaper covering a full bedroom wall above a teal scalloped headboard",
     "width": 902,

@@ -39,20 +39,25 @@ export const IMAGES = [
     category: 'shop',
     alt: 'Entrance of Gouri Mattresses & Furnishing showing curtain fabric racks and pillow stock inside the shop',
   },
+
+  // ── Curtains ─────────────────────────────────────────────────────────────
+  // Note: the two showroom-rack shots below sit under Curtains, not Shop.
+  // They were originally filed as Shop because they were taken inside the
+  // premises, but a visitor who clicks "Our shop" wants to see the shop — its
+  // front, its signboard, where to walk in — not curtain samples on a rail.
+  // File by what the photo *shows*, not where it was taken.
   {
     src: 'WhatsApp Image 2026-08-12 at 3.27.17 PM.jpeg',
     name: 'curtain-fabric-collection-pink-gold-thane',
-    category: 'shop',
-    alt: 'Curtain fabric samples in the Thane showroom — dusty pink damask and gold trellis pinch-pleat panels',
+    category: 'curtains',
+    alt: 'Dusty pink damask and gold trellis pinch-pleat curtain samples on the display rail at the Vartak Nagar showroom',
   },
   {
     src: 'WhatsApp Image 2026-08-12 at 3.27.17 PM (1).jpeg',
     name: 'curtain-fabric-collection-grey-thane',
-    category: 'shop',
-    alt: 'Grey striped sheer and charcoal blackout curtain samples hanging in the Gouri Furnishing showroom, Thane',
+    category: 'curtains',
+    alt: 'Grey striped sheer and charcoal blackout pinch-pleat curtain samples hanging on the showroom display rail',
   },
-
-  // ── Curtains ─────────────────────────────────────────────────────────────
   {
     src: 'WhatsApp Image 2026-08-12 at 12.10.30 AM.jpeg',
     name: 'curtains-peach-sheer-layered-living-room-thane',
@@ -396,11 +401,14 @@ export const IMAGES = [
     alt: 'Olive green upholstered storage bed with a quilted and channel-panelled headboard',
   },
 
-  // ── Wallpaper & wall panelling ───────────────────────────────────────────
+  // Wallpaper sits under Headboards & walls rather than in a category of its
+  // own: it is sold as part of the same job (the panel and the wall around it
+  // are fitted together), and a filter tab holding one photograph reads as a
+  // bug rather than a category.
   {
     src: 'WhatsApp Image 2026-08-12 at 12.30.42 AM.jpeg',
     name: 'wallpaper-pastel-floral-mural-bedroom',
-    category: 'wallpaper',
+    category: 'headboards',
     hero: true,
     alt: 'Pastel floral mural wallpaper covering a full bedroom wall above a teal scalloped headboard',
   },
@@ -413,7 +421,6 @@ export const CATEGORIES = [
   { key: 'blinds', label: 'Blinds' },
   { key: 'sofas', label: 'Sofas' },
   { key: 'sofa-cum-bed', label: 'Sofa cum bed' },
-  { key: 'headboards', label: 'Headboards & beds' },
-  { key: 'wallpaper', label: 'Wallpaper' },
+  { key: 'headboards', label: 'Headboards & walls' },
   { key: 'shop', label: 'Our shop' },
 ]

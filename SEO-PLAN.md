@@ -29,6 +29,21 @@ quietly costs ranking.
 | 4 | **Years in business / jobs done** | `src/data/site.js` → `TRUST_STATS` | Deliberately left out rather than guessed. Real numbers convert better than adjectives — get them from Firoz. |
 | 5 | **Google rating** | `src/data/site.js` → `RATING.showRating` | Currently `false`, and there is **no `aggregateRating` in the schema**. See the warning below. |
 
+### Photographs still missing
+
+The 59 supplied photos cover curtains, blinds, sofas and headboards very well.
+Two gaps are worth closing, in this order:
+
+1. **Mattresses.** There is not one photograph of a finished mattress — coir,
+   cotton, or an odd-size cut — despite "Mattresses" being the first word of the
+   shop's name. The mattress service card currently uses the shop front, because
+   it is the only image showing real pillow and mattress stock. Ask for four or
+   five.
+2. **A worn sofa, photographed before re-upholstery.** The shop has plenty of
+   finished sofas but no before/after pair. For sofa repair — the highest-margin
+   service here — a genuine before-and-after is the single most persuasive image
+   the site could carry, and no competitor in Thane is publishing one.
+
 > **On the star rating — do not shortcut this.** It is tempting to put "4.8★ from
 > 120 reviews" in the schema before the reviews exist. Google treats a rating in
 > structured data that is not visible and verifiable on the page as a violation,

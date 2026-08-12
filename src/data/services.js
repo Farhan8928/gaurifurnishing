@@ -123,7 +123,15 @@ export const SERVICES = [
       'Pillows, bolsters and cushion inners',
       'Old mattress re-filling and re-covering',
     ],
-    image: 'headboard-tan-channel-fluted-wall',
+    // The shop-front photo, because it is the only one showing actual pillow
+    // and mattress stock (the hanging Kohinoor / Dream Sleep / Fresh packs).
+    // This slot previously held a headboard photo, which was simply the wrong
+    // product on the wrong card.
+    // TODO(client): ask Firoz for photographs of finished mattresses — coir,
+    // cotton, an odd-size cut. For a shop whose name begins with "Mattresses",
+    // having no dedicated mattress photography is the biggest content gap on
+    // the site. Same for a worn sofa photographed before re-upholstery.
+    image: 'gouri-furnishing-shop-entrance-pokhran-road',
     meta: 'Coir, cotton and foam mattresses cut to any size, plus pillows and bolsters made to order.',
     keywords: [
       'mattress shop in Thane',

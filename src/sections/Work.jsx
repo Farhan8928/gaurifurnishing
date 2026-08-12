@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { X, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, MessageCircle, Navigation } from 'lucide-react'
 import Photo from '../components/Photo.jsx'
 import { GALLERY } from '../data/gallery.gen.js'
 import { CATEGORIES } from '../../scripts/image-manifest.mjs'
-import { waLink, WA_DEFAULT } from '../data/site.js'
+import { CONTACT, waLink, WA_DEFAULT } from '../data/site.js'
 
 /**
  * The portfolio.
@@ -79,18 +79,16 @@ export default function Work() {
   return (
     <section id="work" className="bg-paper-deep py-16 lg:py-24">
       <div className="container-page">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <span aria-hidden="true" className="rule-mark" />
-            <h2 className="h-section text-balance">
-              {GALLERY.length} jobs from homes across Thane
-            </h2>
-            <p className="prose-body mt-5 text-pretty">
-              Every photograph below is our own work, in a real customer's home or
-              on our workshop floor. Nothing on this page is a stock photo or a
-              catalogue render.
-            </p>
-          </div>
+        <div className="max-w-2xl">
+          <span aria-hidden="true" className="rule-mark" />
+          <h2 className="h-section text-balance">
+            {GALLERY.length} jobs from homes across Thane
+          </h2>
+          <p className="prose-body mt-5 text-pretty">
+            Every photograph below is our own work, in a real customer's home or
+            on our workshop floor. Nothing on this page is a stock photo or a
+            catalogue render.
+          </p>
         </div>
 
         {/* Category filter — horizontally scrollable on phones. */}
@@ -157,31 +155,42 @@ export default function Work() {
           role="dialog"
           aria-modal="true"
           aria-label={active.alt}
-          className="fixed inset-0 z-[60] flex flex-col bg-navy-deep/97"
+          /* Solid backdrop, not a translucent one. This was `bg-navy-deep/97`,
+             and 97 is not a value Tailwind emits — the class compiled to
+             nothing, so the overlay was fully transparent: the gallery and the
+             site header showed straight through it, the caption sat unreadable
+             on top of a photograph, and the close button could not be seen at
+             all. scripts/css-audit.mjs now fails the build on that mistake.
+             A photo viewer wants an opaque ground regardless. */
+          className="fixed inset-0 z-[60] flex flex-col bg-navy-deep"
           onClick={() => setLightbox(null)}
         >
-          <div className="flex items-center justify-between p-4 text-paper/70">
-            <span className="font-display text-sm font-bold tabular-nums">
+          {/* Close is a filled red button with a visible word on it, not an
+              outlined icon — it is the one control a user must find instantly.
+              Escape and a click on the backdrop also close the viewer. */}
+          <div className="flex items-center justify-between gap-4 border-b border-paper/15 p-3 sm:p-4">
+            <span className="font-display text-sm font-bold tabular-nums text-paper/70">
               {lightbox + 1} / {matching.length}
             </span>
             <button
               type="button"
               onClick={() => setLightbox(null)}
-              className="grid h-11 w-11 place-items-center border-2 border-paper/25 text-paper hover:bg-paper/10"
-              aria-label="Close"
+              className="btn-red !px-4 !py-2.5"
+              aria-label="Close photo viewer"
             >
-              <X size={20} />
+              <X size={18} aria-hidden="true" />
+              Close
             </button>
           </div>
 
           <div
-            className="flex min-h-0 flex-1 items-center justify-center px-3"
+            className="flex min-h-0 flex-1 items-center justify-center gap-2 p-3"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"
               onClick={() => step(-1)}
-              className="mr-2 hidden h-12 w-12 shrink-0 place-items-center border-2 border-paper/25 text-paper hover:bg-paper/10 sm:grid"
+              className="hidden h-12 w-12 shrink-0 place-items-center border-2 border-paper/25 text-paper hover:bg-paper/10 sm:grid"
               aria-label="Previous photo"
             >
               <ChevronLeft size={22} />
@@ -198,7 +207,7 @@ export default function Work() {
             <button
               type="button"
               onClick={() => step(1)}
-              className="ml-2 hidden h-12 w-12 shrink-0 place-items-center border-2 border-paper/25 text-paper hover:bg-paper/10 sm:grid"
+              className="hidden h-12 w-12 shrink-0 place-items-center border-2 border-paper/25 text-paper hover:bg-paper/10 sm:grid"
               aria-label="Next photo"
             >
               <ChevronRight size={22} />
@@ -206,37 +215,56 @@ export default function Work() {
           </div>
 
           <div
-            className="flex flex-col items-center gap-3 p-4 text-center sm:flex-row sm:justify-between sm:text-left"
+            className="border-t border-paper/15 bg-navy-deep p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <p className="max-w-2xl text-sm leading-relaxed text-paper/70">{active.alt}</p>
-            <a
-              href={waLink(`${WA_DEFAULT}something like this: ${active.alt}`)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-whatsapp shrink-0 !py-3"
-            >
-              <MessageCircle size={16} aria-hidden="true" />
-              I want something like this
-            </a>
-          </div>
+            <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-between sm:text-left">
+              <p className="max-w-2xl text-sm leading-relaxed text-paper/80">{active.alt}</p>
 
-          {/* Thumb-friendly prev/next on phones, where the side arrows are hidden. */}
-          <div className="grid grid-cols-2 gap-2 p-3 sm:hidden" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              onClick={() => step(-1)}
-              className="btn border-2 border-paper/25 text-paper"
-            >
-              <ChevronLeft size={18} aria-hidden="true" /> Previous
-            </button>
-            <button
-              type="button"
-              onClick={() => step(1)}
-              className="btn border-2 border-paper/25 text-paper"
-            >
-              Next <ChevronRight size={18} aria-hidden="true" />
-            </button>
+              {/* The action has to match what the photograph shows. "I want
+                  something like this" on a picture of the shop front is
+                  nonsense — there is nothing to order there. Photos of the
+                  premises offer directions instead. */}
+              {active.category === 'shop' ? (
+                <a
+                  href={CONTACT.directions}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-red shrink-0 !py-3"
+                >
+                  <Navigation size={16} aria-hidden="true" />
+                  Get directions to the shop
+                </a>
+              ) : (
+                <a
+                  href={waLink(`${WA_DEFAULT}something like this: ${active.alt}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-whatsapp shrink-0 !py-3"
+                >
+                  <MessageCircle size={16} aria-hidden="true" />
+                  I want something like this
+                </a>
+              )}
+            </div>
+
+            {/* Thumb-friendly prev/next on phones, where the side arrows hide. */}
+            <div className="mt-3 grid grid-cols-2 gap-2 sm:hidden">
+              <button
+                type="button"
+                onClick={() => step(-1)}
+                className="btn border-2 border-paper/25 text-paper"
+              >
+                <ChevronLeft size={18} aria-hidden="true" /> Previous
+              </button>
+              <button
+                type="button"
+                onClick={() => step(1)}
+                className="btn border-2 border-paper/25 text-paper"
+              >
+                Next <ChevronRight size={18} aria-hidden="true" />
+              </button>
+            </div>
           </div>
         </div>
       )}
