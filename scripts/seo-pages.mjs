@@ -90,19 +90,36 @@ const SERVICE_ANGLE = {
     'A headboard is the one piece of upholstery people look at every day, so the panel layout and the fabric matter more than on a sofa. We build the board, upholster it, and mount it to the wall — full wall width if you want it, not just bed width.',
 }
 
-/** Picks photographs relevant to a service, rotated so each area page differs. */
+/**
+ * Picks photographs relevant to a service, rotated so each area page differs.
+ *
+ * Categories are listed most-relevant first; the pool is drawn in that order so
+ * a page leads with photographs of the thing it is actually about. Keep this in
+ * step with the categories in scripts/image-manifest.mjs — when `mattress` was
+ * added there, this map still pointed the mattress pages at headboard photos,
+ * so /mattress-thane/ opened with a picture of a quilted headboard.
+ */
 function photosFor(service, offset = 0) {
   const catMap = {
     curtains: ['curtains'],
     blinds: ['blinds'],
     'sofa-repair': ['sofas', 'sofa-cum-bed'],
     'sofa-cum-bed': ['sofa-cum-bed', 'sofas'],
-    mattress: ['headboards'],
-    headboard: ['headboards', 'wallpaper'],
+    mattress: ['mattress', 'headboards'],
+    headboard: ['headboards'],
   }
-  const pool = GALLERY.filter((g) => catMap[service.slug].includes(g.category))
+  const cats = catMap[service.slug]
+  const primary = GALLERY.filter((g) => g.category === cats[0])
+  const secondary = cats.slice(1).flatMap((c) => GALLERY.filter((g) => g.category === c))
+  const pool = [...primary, ...secondary]
   if (!pool.length) return []
-  return Array.from({ length: Math.min(6, pool.length) }, (_, i) => pool[(offset + i) % pool.length])
+
+  // The starting index is wrapped over the PRIMARY block, not the whole pool,
+  // so the first photograph is always of the thing the page is about. Wrapping
+  // over the whole pool meant /mattress-thane/ — offset 8 into a pool of 2
+  // mattresses followed by 14 headboards — opened with a quilted headboard.
+  const start = offset % primary.length
+  return Array.from({ length: Math.min(6, pool.length) }, (_, i) => pool[(start + i) % pool.length])
 }
 
 /** Rotates the FAQ order per page so no two pages carry the identical block. */
@@ -358,7 +375,11 @@ function renderPage(service, area, index) {
     `furnishing shop ${areaLabel}`,
   ].join(', ')
 
-  const photos = photosFor(service, index * 2)
+  // `index`, not `index * 2`. Doubling made every offset even, so a primary
+  // pool with an even size could never rotate — all 18 mattress area pages
+  // opened with the same photograph, which is precisely the near-duplicate
+  // look that gets a location-page grid treated as doorway pages.
+  const photos = photosFor(service, index)
   const faqs = faqsFor(index)
   const note = isHub
     ? 'We work across the whole of Thane West and the surrounding areas from our workshop in Vartak Nagar.'

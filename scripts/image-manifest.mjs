@@ -15,11 +15,26 @@
  *   "…12.30.45 AM (1).jpeg"  carries a "CARVE STYLE" watermark — not their work
  *   "…12.30.45 AM (2).jpeg"  shot inside a large retail showroom, unverifiable
  *   "…12.30.48 AM (2).jpeg"  carries a "LIVSPACE" watermark — a competitor's photo
- * Publishing another company's watermarked photography would be both a
- * copyright problem and a trust problem if a customer recognised it.
+ *   "2026-08-13 at 2.31.20 PM.jpeg"  red folding mattress on a styled set —
+ *       white cyclorama, potted plant, framed art, studio lighting. It reads as
+ *       a supplier's catalogue photograph rather than the shop's own, and two
+ *       measurable details agree: it is 951×735 (small, landscape, the shape of
+ *       a web product listing) where every confirmed photo from this client is
+ *       a large portrait phone shot, and it carries an embedded ICC profile,
+ *       which a desktop editor writes on export and a WhatsApp'd phone photo
+ *       does not. Decision taken 13 Aug: leave it out. The gallery states in
+ *       plain text that "nothing on this page is a stock photo or a catalogue
+ *       render" — that line is a real differentiator here, since competitors'
+ *       sites are full of renders, and it is worth more than one product image.
+ *       Better fix: ask Firoz to photograph a folded mattress in the shop.
+ *       If he confirms the original is his, add it below under 'mattress'.
+ * Publishing another company's photography would be both a copyright problem
+ * and a trust problem if a customer recognised it.
  *
  * Byte-identical duplicates the client sent twice are simply not listed:
- *   12.30.44 AM (2)/(3), 3.27.17 PM (2)/(3), 3.34.38 PM (1)
+ *   12.30.44 AM (2)/(3), 3.27.17 PM (2)/(3), 3.34.38 PM (1),
+ *   and "2026-08-13 at 2.31.19 PM.jpeg" (same bytes as 12.30.48 AM, already
+ *   listed below as headboard-black-gold-diamond).
  */
 
 export const IMAGES = [
@@ -381,12 +396,17 @@ export const IMAGES = [
     category: 'headboards',
     alt: 'Brown brick-pattern padded wall panels and a white tufted headboard during installation',
   },
+  // Filed under mattresses, not headboards. It was catalogued as a headboard
+  // shot in the first bulk pass, but the mattress fills most of the frame and
+  // the headboard sits behind it — and "Mattresses" is the first word of the
+  // shop's name, so the filename and category should say so. The headboard is
+  // still described in the alt text.
   {
     src: 'WhatsApp Image 2026-08-12 at 12.30.48 AM.jpeg',
-    name: 'headboard-black-gold-diamond',
-    category: 'headboards',
+    name: 'mattress-brown-gold-print-storage-bed-thane',
+    category: 'mattress',
     rotate: -90,
-    alt: 'Black leatherette headboard with gold diamond inlay, paired with a storage bed and mattress',
+    alt: 'Brown and gold printed mattress made to size for a storage bed in Thane, below a black leatherette headboard with gold diamond inlay',
   },
   {
     src: 'WhatsApp Image 2026-08-12 at 12.30.44 AM (1).jpeg',
@@ -399,6 +419,13 @@ export const IMAGES = [
     name: 'bed-green-upholstered-storage',
     category: 'headboards',
     alt: 'Olive green upholstered storage bed with a quilted and channel-panelled headboard',
+  },
+  {
+    src: 'WhatsApp Image 2026-08-13 at 2.31.19 PM (1).jpeg',
+    name: 'mattress-navy-printed-storage-bed-thane',
+    category: 'mattress',
+    rotate: -90,
+    alt: 'Navy and gold printed mattress cut to size for a storage bed in a Thane bedroom, under a grey quilted headboard',
   },
 
   // Wallpaper sits under Headboards & walls rather than in a category of its
@@ -421,6 +448,7 @@ export const CATEGORIES = [
   { key: 'blinds', label: 'Blinds' },
   { key: 'sofas', label: 'Sofas' },
   { key: 'sofa-cum-bed', label: 'Sofa cum bed' },
-  { key: 'headboards', label: 'Headboards & walls' },
+  { key: 'headboards', label: 'Beds & headboards' },
+  { key: 'mattress', label: 'Mattresses' },
   { key: 'shop', label: 'Our shop' },
 ]

@@ -399,10 +399,10 @@ export const GALLERY = [
     "height": 722
   },
   {
-    "name": "headboard-black-gold-diamond",
-    "category": "headboards",
+    "name": "mattress-brown-gold-print-storage-bed-thane",
+    "category": "mattress",
     "rotate": -90,
-    "alt": "Black leatherette headboard with gold diamond inlay, paired with a storage bed and mattress",
+    "alt": "Brown and gold printed mattress made to size for a storage bed in Thane, below a black leatherette headboard with gold diamond inlay",
     "width": 1599,
     "height": 720
   },
@@ -419,6 +419,14 @@ export const GALLERY = [
     "alt": "Olive green upholstered storage bed with a quilted and channel-panelled headboard",
     "width": 652,
     "height": 1156
+  },
+  {
+    "name": "mattress-navy-printed-storage-bed-thane",
+    "category": "mattress",
+    "rotate": -90,
+    "alt": "Navy and gold printed mattress cut to size for a storage bed in a Thane bedroom, under a grey quilted headboard",
+    "width": 1300,
+    "height": 1038
   },
   {
     "name": "wallpaper-pastel-floral-mural-bedroom",

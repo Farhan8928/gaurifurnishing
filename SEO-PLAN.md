@@ -31,18 +31,29 @@ quietly costs ranking.
 
 ### Photographs still missing
 
-The 59 supplied photos cover curtains, blinds, sofas and headboards very well.
-Two gaps are worth closing, in this order:
+The 60 supplied photos cover curtains, blinds, sofas and headboards very well.
+Two gaps remain, in this order:
 
-1. **Mattresses.** There is not one photograph of a finished mattress — coir,
-   cotton, or an odd-size cut — despite "Mattresses" being the first word of the
-   shop's name. The mattress service card currently uses the shop front, because
-   it is the only image showing real pillow and mattress stock. Ask for four or
-   five.
+1. **Mattresses — partly closed.** There are now two genuine mattress
+   photographs and a **Mattresses** gallery tab. Ask for three or four more —
+   a coir one, a cotton one, an odd-size cut for a diwan, and a folded mattress
+   on the shop floor — so the tab carries the trade the shop is named after.
 2. **A worn sofa, photographed before re-upholstery.** The shop has plenty of
    finished sofas but no before/after pair. For sofa repair — the highest-margin
    service here — a genuine before-and-after is the single most persuasive image
    the site could carry, and no competitor in Thane is publishing one.
+
+> **One photo was deliberately left out.** A red folding mattress on a styled
+> white set arrived in the same batch. It is 951×735 with an embedded ICC
+> profile — the signature of a desktop export, where every confirmed photo from
+> this client is a large portrait phone shot with neither. It is almost
+> certainly a supplier's catalogue image, and the gallery states in plain text
+> that nothing on the page is a stock photo or a catalogue render. That line is
+> worth more than one product image: every competing furnishing site in Thane is
+> full of renders, and this shop can honestly say otherwise. **Ask Firoz to
+> photograph a folded mattress on the shop floor instead — thirty seconds of
+> work, and it is worth more than the catalogue shot anyway.** Reasoning is
+> recorded at the top of `scripts/image-manifest.mjs`.
 
 > **On the star rating — do not shortcut this.** It is tempting to put "4.8★ from
 > 120 reviews" in the schema before the reviews exist. Google treats a rating in

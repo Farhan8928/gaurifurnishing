@@ -13,6 +13,8 @@ import { readdir, readFile, stat } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { CONTACT, SITE_URL } from '../src/data/site.js'
+import { SERVICES, AREAS } from '../src/data/services.js'
+import { GALLERY } from '../src/data/gallery.gen.js'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const DIST = join(ROOT, 'dist')
@@ -108,6 +110,65 @@ async function main() {
       warn(`${name}: target="_blank" without rel="noopener"`)
     if (/lorem ipsum/i.test(html)) fail(`${name}: placeholder text left in the page`)
     if (/PLACEHOLDER|TODO/.test(html)) warn(`${name}: contains TODO/PLACEHOLDER text`)
+  }
+
+  // ── Generated pages lead with a relevant, varying photograph ─────────
+  //
+  // Two bugs live here, both silent and both shipped once:
+  //
+  //   1. Adding the `mattress` gallery category did not update the catMap in
+  //      seo-pages.mjs, so /mattress-thane/ opened with a quilted headboard.
+  //      Nothing failed — the page was valid, just about the wrong product.
+  //   2. The photo offset was `index * 2`, always even, so a primary pool with
+  //      an even size never rotated: all 18 mattress area pages opened with the
+  //      identical image. That is exactly the near-duplicate signature that
+  //      gets a location-page grid demoted as doorway pages.
+  //
+  // Both are invisible without opening the pages and comparing them, so they
+  // are asserted here instead.
+  const categoryOf = Object.fromEntries(GALLERY.map((g) => [g.name, g.category]))
+  const PRIMARY_CATEGORY = {
+    curtains: 'curtains',
+    blinds: 'blinds',
+    'sofa-repair': 'sofas',
+    'sofa-cum-bed': 'sofa-cum-bed',
+    mattress: 'mattress',
+    headboard: 'headboards',
+  }
+
+  for (const service of SERVICES) {
+    const expected = PRIMARY_CATEGORY[service.slug]
+    if (!expected) {
+      warn(`no primary gallery category mapped for service "${service.slug}"`)
+      continue
+    }
+    const poolSize = GALLERY.filter((g) => g.category === expected).length
+    const leads = []
+
+    for (const areaSlug of ['thane', ...AREAS.map((a) => a.slug)]) {
+      const page = `${service.slug}-${areaSlug}`
+      const html = await readFile(join(DIST, page, 'index.html'), 'utf8').catch(() => '')
+      if (!html) continue
+
+      const lead = html.match(/\/images\/([a-z0-9-]+)-800\.webp/)?.[1]
+      if (!lead) {
+        fail(`${page}: no gallery photograph on the page`)
+        continue
+      }
+      leads.push(lead)
+      if (categoryOf[lead] !== expected)
+        fail(
+          `${page}: leads with "${lead}" (${categoryOf[lead] ?? 'unknown'}), expected a ${expected} photo`,
+        )
+    }
+
+    // With more than one photo available, the pages must not all show the same
+    // one. Allowing a little slack: the check is that rotation happens at all.
+    const distinct = new Set(leads).size
+    if (poolSize > 1 && distinct < 2)
+      fail(
+        `${service.slug}: all ${leads.length} pages lead with the same photo despite ${poolSize} available — rotation is broken`,
+      )
   }
 
   // ── Required files ───────────────────────────────────────────────────
